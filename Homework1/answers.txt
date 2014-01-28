@@ -1,0 +1,64 @@
+Answers to Homework 1 (bc):
+
+b)Report the approximate solution and number of iterations required.
+	Below are the approximate solutions and iterations for both Jacobi and Gauss-Seidel methods:
+
+Given: A = 
+4  1  -1  1  
+1  4  -1  -1  
+-1  -1  5  1  
+1  -1  1  3  
+
+Given: b = 
+-2
+-1
+0
+1
+
+Given: x^(0) = 
+0
+0
+0
+0
+
+Jacobi: solution converged, |r|_inf = 0.000853992
+Jacobi: Iteration index: k = 14
+Jacobi: Approximate solution: x^(k) = 
+-0.752927
+0.0407854
+-0.280609
+0.691166
+
+Gauss Seidel: solution converged, |r|_inf = 0.000640597
+Gauss Seidel: Iteration index: k = 8
+Gauss Seidel: Approximate solution: x^(k) = 
+-0.753176
+0.0410105
+-0.280705
+0.69163
+
+
+c)Which method converges faster for this system?
+	The Gauss-Seidel converges faster for this system.
+
+Do you get the same solution and convergence speed for different choices of x(0)?
+	Usually the solution and convergence speed change for different initial conditions. For example, the initial conditions x(0) = -.75, x(1) = 0.04, x(2) = -0.28, and x(3) = 0.69 will give the following results:
+
+Jacobi: solution converged, |r|_inf = 0.000822917
+Jacobi: Iteration index: k = 3
+Jacobi: Approximate solution: x^(k) = 
+-0.75299
+0.0407083
+-0.280542
+0.691208
+
+Gauss Seidel: solution converged, |r|_inf = 0.000991667
+Gauss Seidel: Iteration index: k = 2
+Gauss Seidel: Approximate solution: x^(k) = 
+-0.753042
+0.0409583
+-0.28065
+0.69155
+
+
+
