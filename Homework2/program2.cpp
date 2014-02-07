@@ -46,7 +46,7 @@ int sor(matrix&, vector&, vector&, double, int, double);
 int main() {
 
   /*** Define and input problem data ***/
-  int n=100, maxIter=1000, iter;
+  int n=100, maxIter=10000, iter;
   double tol=1e-5, w=1.2, r_norm;
   matrix Cinv(n,n), A(n,n);
   vector x(n), b(n);
@@ -77,7 +77,7 @@ int main() {
     } 
     else { 
       Cinv(i,i) = 1/sqrt(A(i,i)); 
-      // Cinv(i,i) = 1; //Use this for no pre-cond
+      //  Cinv(i,i) = 1; //Use this for no pre-cond
     }
   }
 

@@ -1,0 +1,85 @@
+
+Homework 2 Answers
+
+b) Conjugate Gradient method output:
+
+Conjugate Gradient: solution converged, |r|_inf = 7.21406e-06
+Conjugate Gradient: Iteration index: k = 20
+Conjugate Gradient: Approximate solution: x^(k) = 
+x1 = 4.85611
+x2 = 8.71221
+x3 = 11.5683
+x4 = 13.4244
+
+
+c) 
+
+Jacobi: solution converged, |r|_inf = 9.62856e-06
+Jacobi: Iteration index: k = 267
+Jacobi: Approximate solution: x^(k) = 
+4.85607
+8.71215
+11.5682
+13.4243
+
+
+Gauss Seidel: solution converged, |r|_inf = 9.46125e-06
+Gauss Seidel: Iteration index: k = 135
+Gauss Seidel: Approximate solution: x^(k) = 
+4.85607
+8.71215
+11.5682
+13.4243
+
+
+#### w = 1.2 ####
+Successive Over-relaxation: solution converged, |r|_inf = 8.78884e-06
+Successive Over-relaxation: Iteration index: k = 89
+Successive Over-relaxation: Approximate solution: x^(k) = 
+4.85607
+8.71215
+11.5682
+13.4243
+
+
+#### w = 1.6 ####
+Successive Over-relaxation: solution converged, |r|_inf = 6.55068e-06
+Successive Over-relaxation: Iteration index: k = 30
+Successive Over-relaxation: Approximate solution: x^(k) = 
+4.8561
+8.71221
+11.5683
+13.4244
+
+
+#### w = 2.3 ####
+Successive Over-relaxation: solution converged, |r|_inf = 0
+Successive Over-relaxation: Iteration index: k = 2666
+Successive Over-relaxation: Approximate solution: x^(k) = 
+-7.18408e+303
+-1.23162e+304
+-2.78859e+304
+-3.43013e+304
+
+
+The w value seems to have a very large effect on how quickly the values converge 
+and how many iterations are needed. Also, when the w is too large, the SOR 
+method seems to break. This seems to be because of the ver large numbers that 
+are stored with missing digits of precision then operations (like subtraction) 
+allow for the "error" to get down to zero with bogus answers.
+
+
+#### Conjugate Gradient without pre-conditioning ####
+Conjugate Gradient: solution converged, |r|_inf = 9.48832e-06
+Conjugate Gradient: Iteration index: k = 34
+Conjugate Gradient: Approximate solution: x^(k) = 
+4.8561
+8.71221
+11.5683
+13.4244
+
+
+As for using the Conjugate Gradient without pre-conditioning, the only thing 
+that seems to change here is how long it takes to converge (more iterations). 
+The difference is almost negligable though, so using the identity matrix may 
+not be a bad idea in some situations.

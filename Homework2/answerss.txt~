@@ -1,0 +1,46 @@
+
+Homework 2 Answers
+
+b) Conjugate Gradient method output:
+
+Conjugate Gradient: solution converged, |r|_inf = 7.21406e-06
+Conjugate Gradient: Iteration index: k = 20
+Conjugate Gradient: Approximate solution: x^(k) = 
+x1 = 4.85611
+x2 = 8.71221
+x3 = 11.5683
+x4 = 13.4244
+
+
+c) 
+
+Jacobi: solution converged, |r|_inf = 9.62856e-06
+Jacobi: Iteration index: k = 267
+Jacobi: Approximate solution: x^(k) = 
+4.85607
+8.71215
+11.5682
+13.4243
+
+
+Gauss Seidel: solution converged, |r|_inf = 9.46125e-06
+Gauss Seidel: Iteration index: k = 135
+Gauss Seidel: Approximate solution: x^(k) = 
+4.85607
+8.71215
+11.5682
+13.4243
+
+
+#### w = 1.2 ####
+Successive Over-relaxation: solution converged, |r|_inf = 8.78884e-06
+Successive Over-relaxation: Iteration index: k = 89
+Successive Over-relaxation: Approximate solution: x^(k) = 
+4.85607
+8.71215
+11.5682
+13.4243
+
+
+#### w = 1.6 ####
+
