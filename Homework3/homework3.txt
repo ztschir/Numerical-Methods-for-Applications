@@ -1,0 +1,32 @@
+***********************************
+*******Homework 3 Responses********
+***********************************
+
+
+Response to (b)
+
+Degree n = 1:
+   P(x) = 1.16786 + 2.25996*x
+   Error = 1.98708
+
+Degree n = 2:
+   P(x) = 0.576696 + 6.71764*x - 4.45122*x^2
+   Error = 0.360735
+
+Degree n = 3:
+   P(x) = 0.308743 + 10.9645*x - 15.5472*x^2 + 7.35464*x^3
+   Error = 0.0287736
+
+Does Error decrease as n is increased?
+     Yes
+
+Briefly explain why this should happen:
+     This is because there is a polynomial that exists 
+     that will fit the data perfectly, so when the number
+     of polynomials gets closer to the number of data points,
+     the less of an error that exists.
+
+Appropriate fitting degree:
+   n = 4 with very small error (around 2%)
+
+Plot attached
