@@ -1,0 +1,39 @@
+######################
+#### Answers to b ####
+######################
+
+
+The initial Guesses I made for x was:
+  x(0) = c + r   = 3.5
+  x(1) = -b - r  = -4
+  x(2) = (2*a)/3 = 2
+  x(3) = -b      = -1.5
+  x(4) = c       = 1
+  x(5) = -b - r  = -4
+
+The choice for x(0): O in the x dir was approx c + r magnitude.
+The choice for x(1): O in the negative y dir was approx b + r magnitude.
+The choice for x(2): P in the x dir was approx (2/3) of a magnitude.
+The choice for x(3): P in the negative y dir was approx b magnitude. 
+The choice for x(4): Q in the x dir was approx c magnitude
+The choice for x(5): Q in the negative y dir was approx b + r magnitude.
+
+
+Error for each iteration:
+Newton: |xnew-xold|_inf = 0.8158253005
+Newton: |xnew-xold|_inf = 0.2518617878
+Newton: |xnew-xold|_inf = 0.04753962284
+Newton: |xnew-xold|_inf = 0.02073307858
+Newton: |xnew-xold|_inf = 0.0002477571824
+Newton: |xnew-xold|_inf = 0.0001091560815
+Newton: |xnew-xold|_inf = 6.882995195e-09
+Newton: solution converged
+
+Iteration index: k = 7
+Approx solution: x = 
+3.491209764
+-3.162282117
+2.254214384
+-0.9897622835
+0.9946032888
+-3.292497731

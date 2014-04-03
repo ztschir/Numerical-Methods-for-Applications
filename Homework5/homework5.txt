@@ -1,0 +1,66 @@
+################################
+###### Homework 5 Answers ######
+################################
+
+a)
+
+Mean vector mu = 
+1.89664
+1.94386
+1.15752
+3.95281
+
+Covariance matrix A = n
+ 2.33291    0.436089  -0.47099  -0.307872  
+ 0.436089   2.19321    1.1283   -0.0556413  
+-0.47099    1.1283     2.53626   1.20447  
+-0.307872  -0.0556413  1.20447   1.38376 
+
+
+b)
+
+Given: x^(0) = 
+1
+1
+1
+1
+
+Gen power: soln converged, |r|_inf = 7.54031e-05
+Gen Power: Iteration index: k = 24
+Gen Power: Approximate eigval: lambda^(k) = 3.90152
+Gen Power: Approximate eigvec: x^(k) = 
+-0.234589
+0.584592
+1
+0.494133
+
+When I changed the inital vector to several different, 
+  the final result did not change at all.
+
+The maximum radius is just sqrt(lambda_max). This is about 1.975.
+
+
+c)
+
+Given: x^(0) = 
+1
+1
+1
+1
+
+***Results for symmetric power method***
+Sym power: soln converged, |r|_inf = 7.52838e-05
+Sym Power: Iteration index: k = 24
+Sym Power: Approximate eigval: lambda^(k) = 3.90151
+Sym Power: Approximate eigvec: x^(k) = 
+-0.18313
+0.456358
+0.780643
+0.385742
+
+
+I get almost exactly the same eigval, but the eigvecs seem to be off 
+  quite a bit (relative). It seems that the Sym Power results are closer
+  to the "correct" solution according to third party calculators (MATLAB).
+
+
