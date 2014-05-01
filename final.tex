@@ -1,0 +1,655 @@
+\documentclass[8pt]{article}
+
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{tabularx}
+\usepackage{mathabx}
+\usepackage{enumitem}
+\usepackage{arydshln}
+\usepackage{caption}
+\usepackage{multicol}
+\usepackage{sectsty}
+\usepackage{extsizes}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{multirow}
+
+\pagestyle{fancyplain}
+
+% Try very hard not to break relational and binary operators (equations)
+\relpenalty=9999
+\binoppenalty=9999
+
+\newcommand{\dd}[1]{\mathrm{d}{#1}}
+\newcommand{\ddt}[1]{\frac{\dd{}}{\dd{#1}}}
+\newcommand{\dddt}[1]{\frac{\dd{}^2}{\dd{#1}^2}}
+
+\begin{document}
+
+\lhead{Zachary Tschirhart}
+\rhead{M368K Spring 2014 Final Exam Cheat Sheet }
+
+\begin{multicols}{2}
+  \begin{description}
+  \item[Solvability Theorem for BVPs] Suppose $f$ in the BVP
+    $$y''=f(x,y,y'), \text{ for } a\leq x\leq b \text{ with } y(a)=\alpha \text{ and } y(b)=\beta$$ 
+    is continuous on the set 
+    $$D=\{(x,y,y') \mid a\leq x\leq b, -\infty<y<\infty, -\infty<y'<\infty\}$$
+    and that the partials $f_y$ and $f_{y'}$ are also continuous on $D$. If
+      \begin{itemize}
+      \item $f_y(x,y,y')>0, \quad\forall (x,y,y') \in D$
+      \item $\exists M>0 \in \mathbb{R} \text{ s.t. } |f_{y'}(x,y,y')|\leq M \quad\forall(x,y,y')\in D$
+      \end{itemize}
+      Then the BVP has a unique solution.
+  % \item[Solvability Theorem for IVPs] Suppose $f$ in the BVP
+  %   $$y''=f(x,y,y'), \text{ for } a\leq x\leq b \text{ with } y(a)=\alpha \text{ and } y(b)=\beta$$ 
+  %   is continuous on the set 
+  %   $$D=\{(x,y,y') \mid a\leq x\leq b, -\infty<y<\infty, -\infty<y'<\infty\}$$
+  %   and that the partials $f_y$ and $f_{y'}$ are also continuous on $D$. If
+  %     \begin{enumerate}
+  %     \item $f_y(x,y,y')>0, \quad\forall (x,y,y') \in D$
+  %     \item $\exists M>0 \in \mathbb{R} \text{ s.t. } |f_{y'}(x,y,y')|\leq M \quad\forall(x,y,y')\in D$
+  %     \end{enumerate}
+  %     Then the BVP has a unique solution.
+    \item[Linear Shooting Method] For general BVPs in the form
+    $$f(x,y,y') = y'' = p(x)y' + q(x)y + r(x)$$ for $a\leq x \leq b,\quad
+    y(a) = \alpha,\quad y(b) = \beta$
+    which satisfies the simplified Solvability Theorem for BVPs:
+    \begin{itemize}
+    \item $p(x), q(x), r(x)$ are continuous on $[a,b]$
+    \item $q(x)>0$ on $[a,b]$
+    \end{itemize}
+    Then the BVP has a unique solution. We can approximate this
+    solution by first solving the two IVPs for $y_1$ and $y_2$ of 
+    \begin{equation*} 
+      \begin{aligned}
+        y_1'' &= p(x)y_1' + q(x)y_1 + r(x), &\qquad y_1(a)=\alpha,&\quad y_1'(a)=0 \\
+        y_2'' &= p(x)y_2' + q(x)y_2, &\qquad y_2(a)=0,&\quad y_2'(a) = 1\\
+      \end{aligned}
+    \end{equation*}
+    using any IVP solver and then define the solution as 
+    $$ y(x) = y_1(x)+\frac{\beta - y_1(b)}{y_2(b)}y_2(x) $$
+    Check: Plug $y_1''$ and $y_2''$ in above and check the BVP
+    conditions.
+  \item[Nonlinear Shooting Method] Similar to the linear technique,
+    except we approximate the solution to the boundary value problem
+    using the solutions to a sequence of IVPs involving $t$ in the
+    form
+    $$ y'' = p(x)y' + q(x)y + r(x), \qquad y(a)=\alpha,\quad y'(a)=t_k $$
+    ensuring that $\lim_{k\rightarrow\infty}y(b,t_k)=y(b)=\beta$.
+    Use either Secant-Euler or Secant-RK4 to solve within each of $M$
+    subintervals for the solution until $y^{(N)}-\beta < \epsilon$
+  \item[Nonlinear Shooting with Secant-Euler] Given number of iterations $N$,
+    number of subintervals $M$, initial $t_0, t_1$ and $h=\frac{b-a}{M}$
+    \begin{equation*}
+      \begin{aligned}
+        F(t_k) = y^{(N)}_{t_k}(b) - \beta, &&
+        M_k = \frac{F(t_{k})-F(t_{k-1})}{t_{k}-t_{k-1}}
+      \end{aligned}
+    \end{equation*}
+    \begin{equation*}
+      \begin{aligned}
+         \mathbf{w}(x) = \begin{pmatrix}
+          y \\
+          y'' \\
+        \end{pmatrix}, && V(x,y) =
+        \begin{pmatrix}
+          y' \\
+          y'' \\
+        \end{pmatrix}, && \mathbf{w}' = V(x,\mathbf{w})
+      \end{aligned}
+    \end{equation*}
+    % \begin{equation*}
+    %   \begin{aligned}
+    %     %     \text{Solve } y^{(j)}_{t_0}, &\quad j=0,\ldots,M &\quad
+    %     %     F(t_0) = \gamma_0 \\
+    %     %     \text{Solve } y^{(j)}_{t_1}, &\quad j=0,\ldots,M &\quad
+    %     %     F(t_1) = \gamma_1 \\
+    %   \end{aligned}
+    % \end{equation*}
+    $k=1,\ldots,N$ or $F(t_k)<\epsilon$
+    \begin{equation*}
+      \left\{
+        \begin{array}{c}
+          t_{k>2}=t_{k-1}-\frac{F(t_{k-1})}{M_{k-1}} \\
+          % \text{Solve } y^{(j)}_{t_1}&, \quad j=0,\ldots,M \\
+          % F(t_k) &= y^{(N)}_{t_k}(b) - \beta \\
+          \mathbf{w}^{(0)} =
+          \left[\begin{smallmatrix}
+            0 \\ t_k
+          \end{smallmatrix}\right] \\
+          \mathbf{w}^{(k)} = \mathbf{w}^{(k-1)} - hV(x_k,y^{(k-1)})
+        \end{array}
+      \right.
+    \end{equation*}
+
+  \item[Nonlinear Shooting with Newton Iteration]
+    $k=1,\ldots,N$ or $F(t_k)<\epsilon$
+    \begin{equation*}
+      \left\{
+        \begin{array}{c}
+          t_{k>1}=t_{k-1}-\frac{F(t_{k-1})}{\ddt{t}y^{(k)}(b,t_{k-1})} \\
+          % \text{Solve } y^{(j)}_{t_1}&, \quad j=0,\ldots,M \\
+          % F(t_k) &= y^{(N)}_{t_k}(b) - \beta \\
+          \mathbf{w}^{(0)} =
+          \left[\begin{smallmatrix}
+            0 \\ t_k
+          \end{smallmatrix}\right] \\
+          \mathbf{w}^{(k)} = \mathbf{w}^{(k-1)} - hV(x_k,y^{(k-1)})
+        \end{array}
+      \right.
+    \end{equation*}
+
+  \item[Secant/Forward Euler's Method] Is a first-order version of Runge-Kutta. For a mesh size $n$ and
+    initial guess $\mathbf{x}^{(0)}$
+    \begin{equation*}
+      b=-\frac{1}{n}F(x)
+    \end{equation*}
+    \begin{equation*}
+      \left\{
+        \begin{aligned}
+          A &= J(\mathbf{x}^{(k-1)}) \\
+          \mathbf{x}^{(k)} &= \mathbf{x}^{(k-1)}+ A^{-1}b \\
+        \end{aligned}
+      \right.
+    \end{equation*}
+
+  \item[Shooting Method Convergence Theorem]
+    Assume:
+    \begin{itemize}
+    \item The conditions of the BVP Solvability Theorem are met
+    \item $f(t), f'(t), f''(t)$ are continuous in the neighborhood of $t$
+    \item $f'(t) \neq 0$
+    \end{itemize}
+    Then 
+    \begin{itemize}
+    \item $t_k \rightarrow t_{*,N}$ as $k\rightarrow\infty$ provided
+      that the initial guess was close enough ($|t_0-t_*|<r,
+      |t_1-t_*|<r$) and the IVP grid is fine enough ($N\geq R$).
+    \item $t_{*,N} \rightarrow t_*$ and $y_{t_{*,N}}^{(j)} \rightarrow
+      y(x_{j})$ as $N\rightarrow\infty$
+        \begin{gather*}
+          |t_{*,N}-t_*| \leq Ch^p \\
+          \stackrel{\text{max}}{_{0\leq j\leq N}}  |y_{t_{*,N}}-y(x_j)| \leq Ch^p
+        \end{gather*}
+      where $p=1$ for Secant-Euler or Newton-Euler and $p=4$ for
+      Runge-Kutta-4.
+    \end{itemize}
+
+  \item[Runge-Kutta] For $n$ iterations and initial guess $\mathbf{x}^{(0)}$. Does not require a
+    good guess of $\mathbf{x}^{(0)}$ and converges quickly, though for RK4, it requires for linear
+    systems to be solved when computing the $\mathbf{k}$ values, so $n$ steps requires solving
+    $4n$ linear systems. One step may be enough to get an accurate solution.
+
+    The generalized $\mathbf{k}_i$ values, where $\alpha_i$ are weights and $h=\frac{1}{n}$
+    $$ \mathbf{k}_i = -h[J(\mathbf{x}^{(k)})+\alpha_{i-1}\mathbf{k}_{i-1})]^{-1}F(\mathbf{x}^{(0)}) $$
+    For the fourth-order Runge-Kutta problem ($n=4$), the $\mathbf{k}_i$ values are as below,
+    where $\alpha = (0, \frac{1}{2}, \frac{1}{2}, 1)$.
+    \begin{equation*}
+      \begin{aligned}
+        &h = 1/n & \mathbf{b} =-hF(\mathbf{x})& \\
+      \end{aligned}
+    \end{equation*}
+    \begin{equation*}
+      \left\{
+        \begin{aligned}
+          \mathbf{k}_1 &= (J(\mathbf{x}^{(i)}))^{-1}\mathbf{b} \\
+          \mathbf{k}_2 &= (J(\mathbf{x}^{(i)}+\frac{1}{2}\mathbf{k}_1))^{-1}\mathbf{b} \\
+          \mathbf{k}_3 &= (J(\mathbf{x}^{(i)}+\frac{1}{2}\mathbf{k}_2))^{-1}\mathbf{b} \\
+          \mathbf{k}_4 &= (J(\mathbf{x}^{(i)}+\mathbf{k}_3))^{-1}\mathbf{b} \\
+          \mathbf{x}^{(i+1)} &= \mathbf{x}^{(i)} + \frac{1}{6}(\mathbf{k}_1+2\mathbf{k}_2+2\mathbf{k}_3+\mathbf{k}_4) \\
+        \end{aligned}
+      \right.
+    \end{equation*}
+  \item[Centered-Difference Equations for Non/Linear Problems] 
+    \begin{gather*}
+      y'(x_i)=\frac{1}{2h}[y(x_{i+1})-y(x_{i-1})]-\frac{h^2}{6}y'''(\eta_i) \\
+      y''(x_i)=\frac{1}{h^2}[y(x_{i+1})-2y(x_i)+y(x_{i-1})]-\frac{h^2}{12}y^{(4)}(\xi_i) \\
+      \frac{y(x_{i+1})-2y(x_i)+y(x_{i-1})}{h^2} = p\frac{y(x_{i+1}) - y(x_{i-1})}{2h}+qy(x_i) + r \\
+    \end{gather*}
+    % \pagebreak[2]
+  \item[Linear Finite Difference Method] 
+    For general BVPs, where \linebreak[4]
+    $a\leq x \leq b,\quad y(a) = \alpha,\quad y(b) = \beta$
+    $$f(x,y,y') = y'' = p(x)y' + q(x)y + r(x)$$
+    The Centered-Difference Equations are rewritten in the form
+    \begin{equation*}
+      \left(\frac{-w_{i+1}+2w_i-w_{i-1}}{h^2}\right) +
+      p(x_i)\left(\frac{w_{i+1}-w_{i-1}}{2h}\right) + q(x_i)w_i = -r(x_i)
+    \end{equation*}
+    Define $w_0 = \alpha$, $w_{N+1}=\beta$, solve the tridiagonal
+    $N\times N$ matrix $A\mathbf{w}=\mathbf{b}$ for the $N$ interior
+    nodes (subintervals).
+    \begin{equation*}
+      \left\{
+        \begin{aligned}
+          &A =
+          % \begin{pmatrix}
+          %   %   1-2\lambda & \lambda & 0 & \multicolumn{3}{c}{\cdots} & 0 \\
+          %   %   \lambda & 1-2\lambda & \lambda & \multicolumn{2}{c}{\ddots} &
+          %   %   & \multirow{2}{*}{\vdots} \\
+          %   %   0 & & \multirow{2}{*}{\ddots} \\
+          %   %   \vdots & & & & & & 0 \\
+          %   %   0 & \multicolumn{2}{c}{\cdots} & 0 & \lambda & 1-2\lambda \\
+          %   2+h^2q(x_1) & -1+\frac{h}{2}p(x_1)    & 0       & \multicolumn{2}{c}{\cdots} & 0 \\
+          %   -1+\frac{h}{2}p(x_1)    & 2+h^2q(x_1) & -1+\frac{h}{2}p(x_1) & \ddots &  & \multirow{2}{*}{\vdots} \\
+          %   0 & \ddots & \ddots & \ddots & \ddots & & \\
+          %   \multirow{2}{*}{\vdots} & \ddots & \ddots & \ddots & \ddots & 0 \\
+          %   & & \ddots & -1+\frac{h}{2}p(x_1) & 2+h^2q(x_1) & -1+\frac{h}{2}p(x_1) \\
+          %   0 & \multicolumn{2}{c}{\cdots} & 0 & -1+\frac{h}{2}p(x_1) & 2+h^2q(x_1) \\
+          % \end{pmatrix} \\
+          \footnotesize{\begin{pmatrix}
+            2+h^2q(x_1) & -1+\frac{h}{2}p(x_1)& & 0\\
+            -1-\frac{h}{2}p(x_2)& \ddots & \ddots & \\
+            & \ddots & \ddots & -1+\frac{h}{2}p(x_{N-1})\\
+            0 & & -1-\frac{h}{2}p(x_N)& 2+h^2q(x_N)
+          \end{pmatrix}},& \\
+          % \mathbf{w}^{(0)} &= \sin\frac{\pi}{4}x \cdot
+          % \left(1+2\cos\frac{\pi}{4}x\right)\\
+          &\mathbf{w}=\begin{pmatrix} w_1 \\ w_2 \\ \vdots \\ w_{N-1} \\ w_N \end{pmatrix},
+          \qquad \mathbf{b} =
+          \begin{pmatrix}
+            -h^2r(x_1)+\left(1+\frac{h}{2}p(x_1)\right)w_0 \\
+            -h^2r(x_2) \\
+            \vdots \\
+            -h^2r(x_{N-1}) \\
+            -h^2r(x_N)+\left(1+\frac{h}{2}p(x_N)\right)w_{N+1} \\
+          \end{pmatrix}& \\
+        \end{aligned}
+      \right.
+    \end{equation*}
+  \item[Linear Finite-Difference Convergence Theorem]
+    The tridiagonal linear system has a unique solution provided that
+    $h<2/L$ where $L=\stackrel{\text{max}}{_{a\leq
+        x\leq b}}|p(x)|$. Establish $y^{(4)}$ is continuous for
+    truncation error $O(h^2)$.
+  \item[Nonlinear Finite Difference Method]     
+    For general BVPs, where \linebreak[4]
+    $a\leq x \leq b,\quad y(a) = \alpha,\quad y(b) = \beta$
+    $$f(x,y,y') = y'' = p(x)y' + q(x)y + r(x)$$
+    To guarantee a unique solution, assume that $f$ satisfies:
+    \begin{itemize}
+    \item $f$ and its partials $f_y$ and $f_{y'}$ are continuous on
+      $$D=\{(x,y,y') \mid a\leq x\leq b, -\infty<y<\infty, -\infty<y'<\infty\}$$
+    \item $f_y(x,y,y')\geq\delta$ on $D$, for some $\delta>0$
+    \item Constants $k$ and $L$ exist such that
+      \begin{equation*}
+        \begin{array}{cc}
+          k=\stackrel{\text{max}}{_{(x,y,y')\in D}}|f_y(x,y,y')|, &
+          L=\stackrel{\text{max}}{_{(x,y,y')\in D}}|f_{y'}(x,y,y')| 
+        \end{array}
+      \end{equation*}
+    \end{itemize}
+    The Centered Difference Method uses $w_0 = \alpha$, $w_{N+1} =
+    \beta$:
+    $$-\frac{w_{i+1}-2w_i+w_{i-1}}{h^2} +
+    f\left(x_i,w_i,\frac{w_{i+1}-w_{i-1}}{2h}\right) = 0$$ 
+    for $i=1,\ldots,N$.  Multiply both sides by $h^2$ and we can use
+    Newton's Method to approximate the solution, so the next
+    iterations of the method will converge to the solution provided
+    that the initial approximation of $w_i^{(0)}$ is close to the
+    solution and that the Jacobian matrix is nonsingular. Solve for
+    $\mathbf{v}$ and accumulate with $\mathbf{w}$ to obtain the
+    solution. The Jacobian matrix is tridiagonal, and the method
+    converges of order $O(h^2)$.
+    \begin{equation*}
+      \left\{
+        \begin{aligned}
+          &J(w_1,\ldots,w_N)_{i,j}^{(k)}= \\
+          & \left\{
+            \begin{array}{ccc}
+              -1+\frac{h}{2}f_{y'}\left(x_i,w_i,\frac{w_{i+1}-w{i-1}}{2h}\right), & i=j-1, & j=2,\ldots,N \\
+              2+h^2f_y\left(x_i,w_i,\frac{w_{i+1}-w_{i-1}}{2h}\right), & i=j & j=1,\ldots,N \\
+              -1-\frac{h}{2}f_{y'}\left(x_i,w_i,\frac{w_{i+1}-w{i-1}}{2h}\right), & i=j-1, & j=2,\ldots,N \\
+            \end{array}
+          \right.\\
+          &J^{(k)}\mathbf{v}^{(k)} = \begin{pmatrix} (-\frac{w_{i+1}-2w_i+w_{i-1}}{h^2} +
+            f\left(x_i,w_i,\frac{w_{i+1}-w_{i-1}}{2h}\right) \end{pmatrix}\\
+          &\mathbf{w}^{(k)} = \mathbf{w}^{(k-1)} + \mathbf{v}^{(k)}
+        \end{aligned}
+      \right.
+    \end{equation*}
+  \item[Newton's Method] Exhibits quadratic convergence; requires
+    continuous $g$ derivatives and that $A(\mathbf{x}) =
+    J(\mathbf{x})$ is nonsingular around the radius of the
+    solution.  Given an initial guess $\mathbf{x}^{(0)}$:
+    \begin{align*}
+      \mathbf{x}^{(k)}=G(\mathbf{x}^{(k-1)})&=\mathbf{x}^{(k-1)}-A(\mathbf{x}^{(k-1)})^{-1}F(\mathbf{x}^{(k-1)}) \\
+      &=\mathbf{x}^{(k-1)}-J(\mathbf{x}^{(k-1)})^{-1}F(\mathbf{x}^{(k-1)}) \\
+    \end{align*}
+    A weakness in Newton's is the requirement to compute and invert $J(\mathbf{x})$,
+    avoided by finding a $\mathbf{y}$ such that
+    $$J(\mathbf{x}^{(k-1)})\mathbf{y}=-F(\mathbf{x}^{(k-1)})$$
+    Then $\mathbf{x}^{(k)}=\mathbf{x}^{(k-1)}+\mathbf{y}$. Newton's
+    Method requires $n^2+n$ functional evaluations, $n^2$ for the
+    Jacobian matrix, $n$ for the evaluation of $F$, and
+    $O(n^3)$ arithmetic operations to solve the linear system.
+  \item[Piecewise Basis Functions]
+    We must first partition the domain such that
+    $a=x_0<x_1<\cdots<x_n<x_{n+1}=b$ for $n$ subintervals. Pay
+    attention to the value of $x$; remember these equations are
+    piecewise. Remember this especially when integrating.
+    \begin{equation*}
+      \begin{aligned}
+        \phi_i(x) &= \left\{
+          \begin{array}{cc}
+            0, & a\leq x\leq x_{i-1} \\
+            \frac{1}{h_{i-1}}(x-x_{i-1}) & x_{i-1}< x\leq x_i \\
+            \frac{1}{h_{i}}(x-x_{i+1}) & x_{i}< x\leq x_{i+1} \\
+            0, & x_{i+1}< x\leq b
+          \end{array}
+        \right. \\
+        \phi_i'(x) &= \left\{
+          \begin{array}{cc}
+            0, & a\leq x\leq x_{i-1} \\
+            \frac{1}{h_{i-1}} & x_{i-1}< x\leq x_i \\
+            -\frac{1}{h_{i}} & x_{i}< x\leq x_{i+1} \\
+            0, & x_{i+1}< x\leq b
+          \end{array}
+        \right.
+      \end{aligned}
+    \end{equation*}
+  \item[Piecewise Linear Finite Element Method] The matrix $A$ is
+    symmetric, tridiagonal, and positive-definite (given $p(x)\geq
+    p_{min}>0$, so the linear system is stable with respect to
+    roundoff error. We have $|\phi(x)-y(x)|=O(h^2)$ convergence for
+    each $x$ in $[a,b]$ due to the first-degree interpolating
+    polynomial $y^*(x)$.
+
+    \begin{equation*}
+      \left\{
+        \begin{aligned}
+          a_{ij} &=
+          \int_a^b[p(x)\phi'_i(x)\phi'_j(x)+q(x)\phi'_i(x)\phi'_j(x)]\dd{x} \\
+          b_i &= \int_a^bf(x)\phi_i(x)\dd{x} \\
+          A\mathbf{c} &= \mathbf{b} \\
+          y^*(x) &= \sum_{i=1}^{n}c_i\phi_i(x) \\
+        \end{aligned}
+      \right.
+    \end{equation*}
+    or
+    \begin{equation*}
+      \left\{
+        \begin{aligned}
+          Q_{1,i}&=\left(\frac{1}{h_{i}}\right)^2\int_{x_i}^{x_{i+1}}(x_{i+1}-x)(x-x_{i})q(x)\dd{x},& i=1,\ldots,n-1 \\
+          Q_{2,i}&=\left(\frac{1}{h_{i-1}}\right)^2\int_{x_{i-1}}^{x_{i}}(x-x_{i-1})^2q(x)\dd{x},& i=1,\ldots,n \\
+          Q_{3,i}&=\left(\frac{1}{h_{i}}\right)^2\int_{x_i}^{x_{i+1}}(x_{i+1}-x)^2q(x)\dd{x},& i=1,\ldots,n \\
+          Q_{4,i}&=\left(\frac{1}{h_{i-1}}\right)^2\int_{x_{i-1}}^{x_{i}}p(x)\dd{x},& i=1,\ldots,n+1 \\
+          Q_{5,i}&=\frac{1}{h_{i-1}}\int_{x_{i-1}}^{x_{i}}(x-x_{i-1})f(x)\dd{x},& i=1,\ldots,n \\
+          Q_{6,i}&=\frac{1}{h_{i}}\int_{x_i}^{x_{i+1}}(x_{i+1}-x)f(x)\dd{x},& i=1,\ldots,n \\
+          a_{i,i} &= Q_{4,i}+Q_{4,i+1}+Q_{2,i}+Q_{3,i},& i=1,\ldots,n \\
+          a_{i,i+1} &= -Q_{4,i+1}+Q_{1,i},& i=1,\ldots,n-1 \\
+          a_{i,i-1} &= -Q_{4,i}+Q_{1,i-1},& i=2,\ldots,n \\
+          b_{i} &= Q_{5,i}+Q_{6,i},& i=1,\ldots,n \\
+          A\mathbf{c} &= \mathbf{b} \\
+          y^*(x) &= \sum_{i=1}^{n}c_i\phi_i(x) \\
+        \end{aligned}
+      \right.
+    \end{equation*}
+  \item[Poisson Equation Finite-Difference Method]
+    In general form:
+    \begin{equation*}
+      \begin{aligned}
+        \nabla^2u(x,y)&\equiv\frac{\partial^2u}{\partial
+          x^2}(x,y)+\frac{\partial^2u}{\partial y^2}=f(x,y) \\
+        R &= \{(x,y) \mid a<x<b,\;c<y<d\} \\
+        u(x,y) &= g(x,y),\quad (x,y) \in S
+      \end{aligned}
+    \end{equation*}
+    $S$ is a boundary of $R$. If $f$ and $g$ are continuous then there
+    is a unique solution.  We first choose a grid of step sizes
+    $h=(b-a)/n$ and $k=(d-c)/m$; $n$ and $m$ are the number of steps
+    for the $x$ and $y$ axis. $x_i=a+ih$ and $y_i=c+ik$ are gridlines
+    whose intersections form mesh points. The Centered-Difference
+    Formulas:
+    \begin{equation*}
+      \begin{aligned}
+        \frac{\partial^2u}{\partial x^2}(x_i,y_j) &=
+        \frac{u(x_{i+1},y_{j})-2u(x_{i},y_{j}) + u(x_{i-1},y_{j})}{h^2} -
+        \frac{h^2}{12}\frac{\partial^4u}{\partial x^4}(\xi_i,y_j) \\
+        \frac{\partial^2u}{\partial y^2}(x_i,y_j) &=
+        \frac{u(x_{i},y_{j+1})-2u(x_{i},y_{j}) + u(x_{i},y_{j-1})}{k^2} -
+        \frac{k^2}{12}\frac{\partial^4u}{\partial y^4}(x_i,\eta_j) \\
+      \end{aligned}
+    \end{equation*}
+    $\xi_i \in (x_{i-1},x_{i+1})$; $\eta_j \in (y_{j-1},y_{j+1})$.
+    Difference-Equation form:
+    \begin{equation*}
+      \scriptsize{
+        \begin{array}{c}
+          2\left[\left(\frac{h}{k}\right)^2+1\right]w_{i,j}-(w_{i+1,j}+w_{i-1,j})
+          - \left(\frac{h}{k}\right)^2(w_{i,j+1}+w_{i,j-1})=-h^2f(x_i,y_j)
+        \end{array}}
+    \end{equation*}
+    $\lambda = \left(\frac{h}{k}\right)^2$. Label the grid points
+    $P_l=(x_i,y_j)$ and $w_l=w_{i,j}$, where $l=i+(m-1-j)(n-1)$ for
+    $i=1,\ldots,n-1$ and $j=1,\ldots,m-1$ to obtain equations at each
+    point $P_i$. Set the RHS of those equations to the adjacent
+    boundary conditions. Put the $P_i$ equations in a matrix and solve
+    for $w_i$. Gauss-Seidel is used to solve the matrix: it is
+    Symmetric Positive-Definite and diagonally dominant (Symmetric
+    Block Tridiagonal).
+  \item[Poisson Equation Solving Methods] Iterative methods should be
+    used for large systems, specifically SOR.
+    % , whose optimal $w$ is 
+    % $$w=\frac{2}{1+\sqrt{1-[\rho(B)]^2}}=\frac{4}{2+\sqrt{4-[\cos(\pi/m)+\cos(\pi/n)]^2}}$$
+    Otherwise direct techniques usually work better (less roundoff).
+    \pagebreak[4]
+  \item[Forward Difference Method] For Parabolic (heat/diffusion) PDEs:
+    \begin{equation*}
+      \begin{aligned}
+        &\frac{\partial u}{\partial t}(x,t) =
+        \alpha^2\frac{\partial^2u}{\partial x^2}(x,t), \qquad
+        0<x<l,\quad t>0& \\
+        &u(0,t)=u(l,t)=0,\quad t>0; \quad u(x,0)=f(x),\quad 0\leq x\leq
+        l& \\
+      \end{aligned}
+    \end{equation*}
+    The discrete equation is
+    $$w_{i,j+1}=(1-2\lambda)w_{i,j}+\lambda(w_{i+1,j}+w_{i-1,j})$$
+    Where $w_{i,0}=f(x_i)$. The system can be written in
+    matrix form:
+    \begin{equation*}
+      \begin{aligned}
+        A&=
+        \begin{pmatrix}
+            1-2\lambda & \lambda & & 0\\
+            \lambda& \ddots & \ddots & \\
+            & \ddots & \ddots & \lambda\\
+            0 & & \lambda & 1-2\lambda
+          \end{pmatrix} \\
+      \end{aligned}
+    \end{equation*}
+    where $\lambda = k\left(\frac{\alpha}{h}\right)^2,\;h=\Delta
+    x,\;k=\Delta t$. Using the matrix form, further approximations of
+    $\mathbf{w}$ can be obtained by multiplying:
+    $$ \mathbf{w}^{(j)} = A\mathbf{w}^{(j-1)} $$
+    The Forward Difference method is conditionally stable: for
+    staibilty, $\rho(A)\leq1$ because of initial error propogation in
+    the explicit nature of the difference method:
+    $$\mathbf{w}^{(1)}=A(\mathbf{w}^{(0)}+\mathbf{e}^{(0)}) =
+    A\mathbf{w}^{(0)} + A\mathbf{e}^{(0)}$$ 
+    Choose $h$, $k$ such that $\lambda\leq\frac{1}{2}$ to ensure
+    $O(k+h^2)$ convergence. 
+  \item[Backward Difference Method] Same Parabolic (heat/diffusion)
+    PDE. The discrete equation is
+    $$w_{i,j-1}=(1+2\lambda)w_{i,j}-\lambda(w_{i+1,j}+w_{i-1,j})$$
+    Where $w_{i,0}=f(x_i)$. The system can be written in matrix form:
+    \begin{equation*}
+      \begin{aligned}
+        A&=
+        \begin{pmatrix}
+            1+2\lambda & -\lambda & & 0\\
+            -\lambda& \ddots & \ddots & \\
+            & \ddots & \ddots & -\lambda\\
+            0 & & -\lambda & 1+2\lambda
+          \end{pmatrix} \\
+      \end{aligned}
+    \end{equation*}
+    where $\lambda = k\left(\frac{\alpha}{h}\right)^2\;h=\Delta
+    x,\;k=\Delta t$. Using the matrix form, further approximations of
+    $\mathbf{w}$ can be obtained by solving:
+    $$ \mathbf{w}^{(j-1)} = A\mathbf{w}^{(j)} $$
+    The Backward Difference method is unconditionally stable: The
+    implicit-difference nature of the Backward Difference
+    method. Since $\lambda>0$, $A$ is positive-definite, strictly
+    diagonally dominant, and tridiagonal. Since $\rho(A^{-1})<1$ (since
+    the eigenvalues of $A^{-1}$ are reciprocals of those from $A$),
+    $\lim_{n\rightarrow\infty}(A^{-1})^n\mathbf{e}^{0}=0$. The rate of
+    convergence and local truncation error is $O(k+h^2)$.
+  \item[Crank-Nicolson Method] The discrete equation, using an
+    averaged-difference method:
+    \begin{equation*}
+      \begin{array}{c}
+        \frac{w_{i,j+1}-w_{i,j}}{k}=\frac{\alpha^2}{2} \left[\frac{w_{i+1,j}-2w_{i,j}+w_{i-1,j}}{h^2} + \frac{w_{i+1,j}-2w_{i,j}+w_{i-1,j}}{h^2}\right]
+      \end{array}
+    \end{equation*}
+    In matrix form this is written as
+    \begin{equation*}
+      \begin{aligned}
+        A&=
+        \begin{pmatrix}
+          (1+\lambda) & -\frac{\lambda}{2} & & 0\\
+          -\frac{\lambda}{2} & \ddots & \ddots & \\
+          & \ddots & \ddots & -\frac{\lambda}{2}\\
+          0 & & -\frac{\lambda}{2} & (1+\lambda)
+        \end{pmatrix} \\
+        B&=
+        \begin{pmatrix}
+          (1-\lambda) & \frac{\lambda}{2} & & 0\\
+          \frac{\lambda}{2} & \ddots & \ddots & \\
+          & \ddots & \ddots & \frac{\lambda}{2}\\
+          0 & & \frac{\lambda}{2} & (1-\lambda)
+        \end{pmatrix} \\
+      \end{aligned}
+    \end{equation*}
+    where $\lambda = k\left(\frac{\alpha}{h}\right)^2,\;h=\Delta
+    x,\;k=\Delta t$. Using the matrix form, further approximations of
+    $\mathbf{w}$ can be obtained by solving:
+    $$ A\mathbf{w}^{(j+1)} = B\mathbf{w}^{(j)} $$
+  \item[Central-Difference Method] For Hyperbolic (wave) PDEs:
+    \begin{equation*}
+      \begin{aligned}
+        &\frac{\partial^2u}{\partial t^2}(x,t) =
+        \alpha^2\frac{\partial^2u}{\partial x^2}(x,t),
+        &0<x<l, \qquad t>0; \\
+        &u(0,t)=u(l,t)=0,\quad &t>0; \\
+        &u(x,0)=f(x),\qquad \frac{\partial u}{\partial t}(x,0)=g(x), \quad &0\leq x\leq
+        l& \\ 
+      \end{aligned}
+    \end{equation*}
+    The discrete equation is 
+    $$ w_{i,j+1} = 2(1-\lambda^2)w{i,j} + \lambda^2(w_{i+1,j}+w_{i-1,j})-w_{i,j}-1 $$
+    where $w_{0,j}=w_{m,j}=0$, $w_{i,0}=f(x_i)$, and 
+    \begin{equation*}
+      \begin{aligned}
+        \mathbf{w}_{i,0} &= f(x_i) \\
+        \mathbf{w}_{i,1} &=
+        (1-\lambda^2)f(x_i)+\frac{\lambda^2}{2}f(x_{i+1}) +
+        \frac{\lambda^2}{2}f(x_{i-1}) + kg(x_i)
+      \end{aligned}
+    \end{equation*}
+    In matrix form this is written as
+    \begin{equation*}
+      \begin{aligned}
+        A&=
+        \begin{pmatrix}
+            2(1-\lambda^2) & \lambda^2 & & 0\\
+            -\lambda& \ddots & \ddots & \\
+            & \ddots & \ddots & -\lambda\\
+            0 & & \lambda^2 & 2(1-\lambda^2)
+          \end{pmatrix} \\
+      \end{aligned}
+    \end{equation*}
+    where $\lambda=\alpha\frac{k}{h},\;h=\Delta x,\;k=\Delta
+    t$. Further approximations of $\mathbf{w}$ can be obtained by
+    computing:
+    $$ \mathbf{w}^{(j+1)} = A \mathbf{w}^{(j)} - \mathbf{w}^{(j-1)}$$
+    Since this method is explicit, it is conditionally stable: we must
+    choose $h$, $k$ such that $\lambda\leq1$ to ensure $O(h^2+k^2)$
+    convergence.
+  \item[Finite Element Method] For the general PDE
+    $$ \frac{\partial}{\partial x}\left(p(x,y)\frac{\partial u}{\partial x}\right) + 
+    \frac{\partial}{\partial y}\left(q(x,y)\frac{\partial u}{\partial y}\right) +
+    r(x,y)u(x,y)=f(x,y)$$
+    with $(x,y) \in D$, where $D$ is a plane region with boundary $S$
+    and boundary conditions $u(x,y)=g(x,y)$ on a portion of the
+    boundary $S_1$. On $S_2$, $u(x,y)$ must satisfy 
+    $$ p(x,y)\frac{\partial u}{\partial x}(x,y)\cos\theta_1 +
+    q(x,y)\frac{\partial u}{\partial y}(x,y)\cos\theta_2 +
+    g_1(x,y)u(x,y) = g_2(x,y)$$
+    First divide the region into triangles $T_1,\ldots,T_M$ such that:
+    \begin{itemize}
+    \item $T_1,\ldots,T_k$ are triangles with no edges on $S_1$ or $S_2$
+    \item $T_{k+1},\ldots,T_N$ are triangles with at leasst one edge
+      on $S_2$.
+    \item $T_{N+1},\ldots,T_M$ are the remaining triangles.
+    \item Label the vertices of the triangle $T_i$ by
+      $(x_1^{(i)},y_1^{(i)}), (x_2^{(i)},y_2^{(i)}), (x_3^{(i)},y_3^{(i)})$.
+    \item Label the nodes (vertices) $E_1,\ldots,E_m$ where
+      $E_1\ldots,E_n$ are in $D \cup S_2$ and $E_{n+1},\ldots,E_m$
+      are on $S_1$.
+    \end{itemize}
+    We must now find the elements of the matrix $A = (\alpha_{i,j})$
+    (sym, pos-def), for $i=1,\ldots,n$ and $j=1,\ldots,m$, is in the form
+    \begin{equation*}
+      \begin{aligned}
+        \alpha_{i,j} &=
+        % region D
+        \int\int_{D}\left[
+          p \,
+          \frac{\partial\phi_i}{\partial x} \,
+          \frac{\partial\phi_j}{\partial x} +
+          q \,
+          \frac{\partial\phi_i}{\partial y} \,
+          \frac{\partial\phi_j}{\partial y} -
+          r
+          \phi_i
+          \phi_i
+        \right]
+        \dd{x}\,\dd{y} +
+        \int_{\mathcal{S}_2}
+        g_1\phi_i\phi_j \,
+        \dd{\mathcal{S}_2} \\
+      \end{aligned}
+    \end{equation*}
+    and $\beta_i$, for $i=1,\ldots,n$, in the form
+    \begin{equation*}
+      \beta_i = -\int\int_{\mathcal{D}}f\phi_i\,\dd{x}\,\dd{y} +
+      \int_{\mathcal{S}_2}g_2\phi_i\,\dd{\mathcal{S}} -
+      \sum_{k=n+1}^{m}\alpha_{ik}\gamma_{k}
+    \end{equation*}
+    where $\phi(x,y) = a + bx + cy$ for triangles.  The $\phi_j^{(i)}$
+    equation for triangle $i$ corresponds to the vertex $E_j$
+    and produces systems
+    \begin{equation*}
+      \begin{bmatrix}
+        1 & x_1^{(i)} & y_1^{(i)} \\
+        1 & x_2^{(i)} & y_2^{(i)} \\
+        1 & x_3^{(i)} & y_3^{(i)} \\
+      \end{bmatrix}
+      \begin{bmatrix}
+        a_j^{(i)} \\ b_j^{(i)} \\ c_j^{(i)} \\
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        j\stackrel{?}{=}i \\ j\stackrel{?}{=}i \\ j\stackrel{?}{=}i \\
+      \end{bmatrix}
+    \end{equation*}
+    for whichever three $\phi_j^{(i)}$ equation are nonzero. Solving
+    each system produces the $a$, $b$, and $c$ values for the
+    $\phi_j^{(i)}$ corresponding to the vertex for that triangle made
+    from $x_j^{(i)}$ and $y_j^{(i)}$. Invoking the boundary
+    conditions, we can consider the $\gamma_i$ value corresponding to
+    vertex $E_i$ on the $S_1$ boundary to be the value at
+    boundary. Now evaluate the big integrals over each
+    triangle. Parametrization and projection over each triangle might
+    be required to evaluate the line integral in $\beta$. Solve for
+    $\mathbf{\gamma}$ in $A\mathbf{\gamma}=b$. The solution is
+    $\phi(x,y)=\sum_{i=1}^{m}\gamma_i\phi_i(x,y)$ for each
+    triangle. Err. for elliptic 2nd-ord. probs. w/ smooth
+    coef. fs. $O(h^2)$.
+  \end{description}
+\end{multicols}
+\end{document} 
