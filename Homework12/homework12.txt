@@ -1,0 +1,30 @@
+%%%%%%%%%%%%%%%%%%%%%%
+%% Answers to HW 12 %%
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+b) 
+
+for dx = 1/10, dy = 1/10, dt = 1/20
+ u = 0.95370
+for dx = 1/15, dy = 1/15, dt = 1/25
+ u = 0.95438
+for dx = 1/20, dy = 1/20, dt = 1/30
+ u = -1.7613E34
+
+No, this is unstable and does not converge. The reason for this instability is because of dt not being small enough. Make it smaller, then it will converge.
+
+
+c)
+
+At  0.5 => Uavg = 0.991799
+At  3   => Uavg = 0.964032
+At  10  => Uavg = 0.935709
+At  20  => Uavg = 0.924895
+At  40  => Uavg = 0.922111
+
+Uavg seems to approach a steady-state value of about 0.92 or so.
+It seems that the nutrient supply is sufficient to maintain Uavg >= .9
+
+

@@ -1,0 +1,27 @@
+%%%%%%%%%%%%%%%%%%%%%%
+%% Answers to HW 12 %%
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+b) 
+
+for dx = 1/10, dy = 1/10, dt = 1/20
+ u = 0.95370
+for dx = 1/15, dy = 1/15, dt = 1/25
+ u = 0.95438
+for dx = 1/20, dy = 1/20, dt = 1/30
+ u = -1.7613E34
+
+No, this is unstable and does not converge. The reason for this instability is because of dt not being small enough. Make it smaller, then it will converge.
+
+
+c)
+
+At  0.5 => avg = 0.991799
+At  3   => avg = 0.964032
+At  10  => avg = 0.935709
+At  20  => avg = 0.924895
+At  40  => avg = 0.922111
+
+
