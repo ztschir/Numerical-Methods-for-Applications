@@ -142,9 +142,10 @@ int ctrdiff2D(int N, int M,
         /*** Compute unew = u^{n+1} using central-difference
         formula with u = u^{n} and uold = u^{n-1}. THIS PART 
         NEEDS TO BE COMPLETED. ***/
-        unew(i,j) = 0 ;
-
-
+        unew(i,j) = (1/(1+s*dt/2))*(2*u(i,j) - (-s*dt/2 + 1)*uold(i,j) 
+		  + dt*dt*(dhatij*uTop + ahatij*uLeft
+                  + bhatij*uCenter + chatij*uRight
+                  + ehatij*uBottom + eta));
       }
 
     }

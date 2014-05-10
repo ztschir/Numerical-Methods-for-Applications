@@ -92,7 +92,7 @@
       \begin{aligned}
          \mathbf{w}(x) = \begin{pmatrix}
           y \\
-          y'' \\
+          y' \\
         \end{pmatrix}, && V(x,y) =
         \begin{pmatrix}
           y' \\
@@ -119,7 +119,7 @@
           \left[\begin{smallmatrix}
             0 \\ t_k
           \end{smallmatrix}\right] \\
-          \mathbf{w}^{(k)} = \mathbf{w}^{(k-1)} - hV(x_k,y^{(k-1)})
+          \mathbf{w}^{(k)} = \mathbf{w}^{(k-1)} + hV(x_{k-1},w^{(k-1)})
         \end{array}
       \right.
     \end{equation*}
@@ -136,7 +136,7 @@
           \left[\begin{smallmatrix}
             0 \\ t_k
           \end{smallmatrix}\right] \\
-          \mathbf{w}^{(k)} = \mathbf{w}^{(k-1)} - hV(x_k,y^{(k-1)})
+          \mathbf{w}^{(k)} = \mathbf{w}^{(k-1)} - hV(x_{k-1},w^{(k-1)})
         \end{array}
       \right.
     \end{equation*}
@@ -540,7 +540,7 @@
       \end{aligned}
     \end{equation*}
     The discrete equation is 
-    $$ w_{i,j+1} = 2(1-\lambda^2)w{i,j} + \lambda^2(w_{i+1,j}+w_{i-1,j})-w_{i,j}-1 $$
+    $$ w_{i,j+1} = 2(1-\lambda^2)w{i,j} + \lambda^2(w_{i+1,j}+w_{i-1,j})-w_{i,j-1} $$
     where $w_{0,j}=w_{m,j}=0$, $w_{i,0}=f(x_i)$, and 
     \begin{equation*}
       \begin{aligned}
